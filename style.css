@@ -1,0 +1,11 @@
+.column{
+  display: flex;
+  flex-flow: column;
+}
+.btn{
+  background-color: aqua;
+  width: 10em;
+  height:3em;
+}
+
+
