@@ -1,52 +1,76 @@
-const btn = document.getElementById("button");
+const btn = document.getElementById("btn");
 const Textarea = document.getElementById('Textarea');
-const deleteBtn = document.getElementById("deleteBtn");
+
+
+  //  試した箇所
+
+window.localStorage.setItem("Todo", Textarea.value);
+var value1 = localStorage.getItem('Todo')
+console.log(value1)
+
 
 function addTodo(){
   // JSで新しくhtmlを生成して表示させるイメージ
   const div = document.createElement("div"); 
   div.classList.add("test");
-  const p = document.createElement('p'); 
   //createElement… tagName で指定された HTML 要素を生成
   const viewtext = document.createTextNode(Textarea.value); 
-  // createTextNode…新しいテキスト作成
-  p.appendChild(viewtext); 
-  //appendChild…指定された親ノードの子ノードリストの末尾にノードを追加します
-  document.body.appendChild(p);
-     //<html><body>上に<p>サンプルテキスト</p>を追加
   Textarea.value = "";
+  // createTextNode…新しいテキスト作成
   // 追加を押したときに削除
-// 今日のtest
-// https://teratail.com/questions/202544
-const check = document.createElement("input"); // <input> を作る
-check.setAttribute("type", "checkbox"); // チェックボックスにする
-div.appendChild(check); // <div> にチェックボックスを追加
-div.appendChild(viewtext); // <div> にテキストを追加
-document.body.appendChild(div); // <div> を <body> に追加
-
-    //  試した箇所
-  localStorage.setItem("Todo", "Todo");
-  var value1 = localStorage.getItem('Todo')
-  console.log(value1)
- 
-  // 要素内の HTML または XML のマークアップを取得したり設定
+  addCheckBox(div);
+  div.appendChild(viewtext);
+  addDeleteButton(div);
+  // <div> にテキストを追加
+  document.body.appendChild(div); // <div> を <body> に追加
+  localStorage.setItem("Todo", viewtext);
+  console.log(localStorage.getItem("Todo"));
 }
-function deleteTodo(){
-  let parentnode = document.getElementById('test');
-  parentnode.lastElementChild.remove();
+
+function addDeleteButton(div) {  
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "削除";
+  deleteButton.classList.add("deleteButton"); 
+  // deleteButton.setAttribute("id", "deleteButton"); 
+  // 同じIDを複数の要素に使うのはだめ
+  div.appendChild(deleteButton);
+  deleteButton.addEventListener('click', () => {
+    div.remove();
+// 削除ボタンは読み込み時にはないので、関数外に作るとエラーを起こす
+  });
+// チェックボックス属性の値を設定
+}
+
+
+function addCheckBox(div) {  
+  const check = document.createElement("input"); // <input> のTML 要素を生成
+  check.setAttribute("id", "checked"); // チェックボックス属性の値を設定
+  check.setAttribute("type", "checkbox");
+  check.classList.add("checkBox");
+  div.appendChild(check); 
+  check.addEventListener('click', () => {
+    hide(div);
+  });
+}
+
+function aaa(){
+  
 }
 
 btn.addEventListener(`click`, () => {
   // clickだけ記載しない
   addTodo()
+  addDeleteButton()
+  addCheckBox() 
   });
 
-deleteBtn.addEventListener(`click`, () => {
-    // clickだけ記載しない
-    deleteTodo()
-    });
 
-    
+  function hide(elem){
+    elem.classList.add('kuro')
+ }
+  
+
+
 //  const save = localStorage.setItem(textinput);
 
 // /  試した箇所

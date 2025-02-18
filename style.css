@@ -16,15 +16,15 @@ body{
   width: 30em;
   height: 1.5em;
 }
-.btn{
+#btn{
   background-color: aqua;
   width: 5em;
-  height:1em;
+  height:2em;
 }
-.deleting_button{
+#deleteBtn{
   background-color: aqua;
-  width: 10px;
-  height:2px;
+  width: 5em;
+  height:2em;
 }
 Textarea{
  border-radius:10px;
@@ -34,5 +34,8 @@ Textarea{
 .kuro{
   color: pink;
   text-decoration: line-through; 
+  opacity: 0.5;
 }
+
+
 
