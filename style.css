@@ -8,34 +8,62 @@ body{
   display: flex;
   flex-flow: column;
 }
+
+#itemAddButton{
+  background-color: aqua;
+  width: 10em;
+  height:2em;
+}
+
+div{
+  margin : 10px ;
+}
+
+.text{
+  width: 200px;
+  padding: 3px 7px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+}
+
 .display-Checkmark-Text{
   display: flex;
   flex-flow:row wrap;
 }
+
 .subject{
   width: 30em;
   height: 1.5em;
 }
+
 #btn{
   background-color: aqua;
   width: 5em;
   height:2em;
 }
+
 #deleteBtn{
   background-color: aqua;
   width: 5em;
   height:2em;
 }
+
 Textarea{
  border-radius:10px;
  width: 500px
 }
 
-.kuro{
+.CheckBoxEnabled{
   color: pink;
   text-decoration: line-through; 
   opacity: 0.5;
 }
 
-
-
+.box {
+  width: 30em;
+  font-weight: bold;
+  color: #7808AE;/*文字色*/
+  background: #FFF;
+  border: solid 3px #7808AE;/*線*/
+  border-radius: 10px;/*角の丸み*/
+}
