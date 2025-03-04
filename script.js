@@ -1,61 +1,55 @@
-
-//チェックボックスの要素を取得
-
-  //  試した箇所
-
-// window.localStorage.setItem("Todo", Textarea.value);
-// var value1 = localStorage.getItem('Todo')
-// console.log(value1)
-// let data = {
-//   'todo1': 'Textarea',
-//   'data2': 'huga'
-// };
-// let val = JSON.stringify(data);
-
-
-
-// let getData = JSON.parse(getVal);
-// // parse…変換処理
-// console.log(getData.data1);  //'hoge'
-// console.log(getData.data2);  //'huga'
-
-
-
+// ＜ぼたんを定義するときは、getElementByIdなど取得忘れず＞
 const btn = document.getElementById("btn");
 const Textarea = document.getElementById('Textarea');
-let todoList = {};
+const deleteButton = document.getElementsByClassName("deleteButton");
+let todoList = JSON.parse(localStorage.getItem("Todo")) || [];
 
-function addTodo(){
-  console.log(todoList);
-  // JSで新しくhtmlを生成して表示させるイメージ
-  const div = document.createElement("div"); 
+
+document.addEventListener("DOMContentLoaded", loadTodos);
+
+
+function addTodo(){  // JSで新しくhtmlを生成して表示させるイメージ
+  const div = document.createElement("div");
+   //createElement… tagName で指定された HTML 要素を生成
   div.classList.add("test");
-  //createElement… tagName で指定された HTML 要素を生成
-  const viewtext = document.createTextNode(Textarea.value); 
-  
-  // ローカルストレージへの代入
+  if (Textarea.value === "") {
+    return; // 名前が
+    // 空の場合は処理を終了()
+  }
 
-  todoList["Todo1"] = Textarea.value
-  
-  const jsonString = JSON.stringify(viewtext);
-  // Json形式に変換
-  window.localStorage.setItem("Todo", jsonString);
+
+  const viewtext = document.createTextNode(Textarea.value); 
+  console.log("Textarea.value",Textarea.value === "")
+  // Windowsスニペット/式も記載できる/
+
+console.log(viewtext)
+    // https://teratail.com/questions/80186
+  const newTodo = {
+    id: Date.now(),
+    text:Textarea.value,
+  };
+  todoList.push(newTodo);
+  console.log("Todo");
+
+
   // 保存
-  const sampleJson = JSON.parse(localStorage.getItem('Todo'));
+  localStorage.setItem("Todo", JSON.stringify(todoList));
+  const sampleJson = JSON.parse(localStorage.getItem("Todo"));
   console.log(sampleJson);
 
-  Textarea.value = "";
-  // createTextNode…新しいテキスト作成
 
-  // 追加を押したときに削除
+  
   addCheckBox(div);
   div.appendChild(viewtext);
-  addDeleteButton(div);
+  addDeleteButton(div); 
   showBorder(div);
   // <div> にテキストを追加
-  document.body.appendChild(div); // <div> を <body> に追加
+  document.body.appendChild(div);
+  Textarea.value = ""; // <div> を <body> に追加
  
 }
+
+// https://living-program.com/javascript/javascript-array/#outline__2_5
 
 function addDeleteButton(div) {  
   const deleteButton = document.createElement("button");
@@ -68,11 +62,18 @@ function addDeleteButton(div) {
   // 同じIDを複数の要素に使うのはだめ
 
   deleteButton.addEventListener('click', () => {
-    div.remove();
+    div.remove()
+   
+    // ①localStorageから配列のTODOを取ってくる
+
+    console.log(todoList.length);
+      // 削除ボタンを作成して追加
+      localStorage.setItem("Todo", JSON.stringify(todoList));
+      console.log("todoList.length",todoList.length)
+      });
 // 削除ボタンは読み込み時にはないので、関数外に作るとエラーを起こす
-  });
-// チェックボックス属性の値を設定
-}
+  };
+
 
 
 function addCheckBox(div) {  
@@ -90,35 +91,54 @@ function addCheckBox(div) {
   });
 }
 
-btn.addEventListener(`click`, () => {
-  // clickだけ記載しない
-  addTodo(); // Todoを追加
-  addDeleteButton(); // 削除ボタンを追加
-  addCheckBox(); // チェックボックスを追加
-});
+
+function CheckBoxEnabled(div){
+  // https://qiita.com/mamenon/items/08a57ba34907331b96c7
+  const checkboxes = document.querySelectorAll(".checkBox");
+  
+  
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener("change", () => {
+      if(checkbox.checked) {
+        //チェックボックスがオンの時
+        div.classList.add("CheckBoxEnabled");
+      } else {
+        //チェックボックスがオフの時
+        div.classList.remove("CheckBoxEnabled");
+      }
+    });
+  });
+  }
+
+  btn.addEventListener("click", addTodo);
 
  function showBorder(elem){
   elem.classList.add('box')
 };
 
+function loadTodos() {
+ 
+  
+  // https://qiita.com/sadakoa/items/95bc7aca2b2e3babf762
+  todoList.forEach((todo) => {
+    localStorage.setItem("Todo", JSON.stringify(todoList));
+    // 中身も繰り返し書かないと反映しない
+    const div = document.createElement("div");
+    div.classList.add("test");
+    const viewtext = document.createTextNode(todo.text);
 
-function CheckBoxEnabled(div){
-// https://qiita.com/mamenon/items/08a57ba34907331b96c7
-const checkboxes = document.querySelectorAll(".checkBox");
 
-
-checkboxes.forEach(checkbox => {
-  checkbox.addEventListener("change", () => {
-    if(checkbox.checked) {
-      //チェックボックスがオンの時
-      div.classList.add("CheckBoxEnabled");
-    } else {
-      //チェックボックスがオフの時
-      div.classList.remove("CheckBoxEnabled");
-    }
+    addCheckBox(div);
+    div.appendChild(viewtext);
+    addDeleteButton(div);
+    showBorder(div);
+// リファクタリング⇒動く状態をつくってから整理する
+    document.body.appendChild(div);
   });
-});
-}
+};
+
+
+
 // /  試した箇所
 // //  setItem…インターフェイスのメソッドで、キーの名前と値を Storage オブジェクトに渡すと、ストレージにキー(カギとなる何かとわりとそのまま）を追加したり、
 // // またはキーがすでに存在する場合はキーに対する値を更新したりします。
