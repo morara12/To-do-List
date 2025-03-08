@@ -67,3 +67,12 @@ Textarea{
   border: solid 3px #7808AE;/*線*/
   border-radius: 10px;/*角の丸み*/
 }
+
+.error-text {
+  width: 30em;
+  font-weight: bold;
+  color: #7808AE;/*文字色*/
+  background: #FFF;
+  border: solid 3px #7808AE;/*線*/
+  border-radius: 10px;/*角の丸み*/
+}
