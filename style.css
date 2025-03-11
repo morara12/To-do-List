@@ -53,7 +53,7 @@ Textarea{
  width: 500px
 }
 
-.CheckBoxEnabled{
+.check-box-enabled{
   color: pink;
   text-decoration: line-through; 
   opacity: 0.5;
