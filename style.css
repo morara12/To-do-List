@@ -18,6 +18,17 @@ body{
 div{
   margin : 10px ;
 }
+.error-text {
+  flex-direction: column;
+  font-weight: red;
+  color: #7808AE;/*文字色*/
+  background: #FFF;
+  border: solid 3px #7808AE;/*線*/
+  border-radius: 10px;/*角の丸み*/
+}
+.display-flex {
+  position: absolute;
+}
 
 .text{
   width: 200px;
@@ -42,7 +53,7 @@ div{
   height:2em;
 }
 
-#deleteBtn{
+#delete-Button{
   background-color: aqua;
   width: 5em;
   height:2em;
@@ -59,7 +70,18 @@ Textarea{
   opacity: 0.5;
 }
 
-.box {
+.todo-item {
+  float: left;
+  width: 30em;
+  font-weight: bold;
+  color: #7808AE;/*文字色*/
+  background: #FFF;
+  border: solid 3px #7808AE;/*線*/
+  border-radius: 10px;/*角の丸み*/
+}
+.deadline-item {
+  display: flex;
+  float: right;
   width: 30em;
   font-weight: bold;
   color: #7808AE;/*文字色*/
@@ -68,7 +90,7 @@ Textarea{
   border-radius: 10px;/*角の丸み*/
 }
 
-.error-text {
+.input-date{
   width: 30em;
   font-weight: bold;
   color: #7808AE;/*文字色*/
@@ -76,3 +98,4 @@ Textarea{
   border: solid 3px #7808AE;/*線*/
   border-radius: 10px;/*角の丸み*/
 }
+

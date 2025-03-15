@@ -2,24 +2,23 @@
 <html lang="ja" >
 <head>
     <meta charset="utf-8">
-     <!-- Webページの概要を示すために、HTMLのheadタグ内にマークアップするmetaタグのことです。 -->
     <meta name="description" content="JS勉強用" />
-   <!-- CSS読み込まないと出てこないことを忘れずに -->
     <link rel="stylesheet" href="./style.css">
     <title>To do List 新規</title>
 </head>
 <body>
     <div class="column">
         <label for="message">todoリスト</label>
-        <!-- <button id="itemAddButton">項目追加</button> -->
-        <!-- <input type="text" class = "text"/> -->
             <div class ="display-Checkmark-Text">
                 <button id="btn">追加</button>
-                <textarea cols="40" rows="2" id="Textarea"></textarea>
-                <p id="error-text" style="color: red;"></p>
+                <textarea id="Textarea"></textarea>
+                <input type="date" id="date"></input>
+                <span id="error-text"></span>
+                <label for="message">文言と締め日を記載し、追加ボタンをクリック</label>
+                <!-- spanはインライン要素 -->
+                <!-- …文章の一部として扱う要素。要素の前後で改行されない。 -->
                 </div>
             </div>
-        <label for="message">文言記載して追加ボタンをクリック</label>
     </div>
 </body>
 </html>
