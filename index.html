@@ -1,3 +1,4 @@
+    <!-- クラス名で何をしているかわかりやすく記載すること -->
 <!DOCTYPE html>
 <html lang="ja" >
 <head>
@@ -7,19 +8,52 @@
     <title>To do List 新規</title>
 </head>
 <body>
-    <div class="column">
-        <label for="message">todoリスト</label>
+    <div class ="tate">
+        <div class="column">
+            <label for="message">todoリスト</label>
             <div class ="display-Checkmark-Text">
-                <button id="btn">追加</button>
-                <textarea id="Textarea"></textarea>
+                <button id="btn">＋</button>
+                <textarea id="textarea"placeholder="todoを入力してください"></textarea>
                 <input type="date" id="date"></input>
-                <span id="error-text"></span>
-                <label for="message">文言と締め日を記載し、追加ボタンをクリック</label>
-                <!-- spanはインライン要素 -->
-                <!-- …文章の一部として扱う要素。要素の前後で改行されない。 -->
-                </div>
+                <select name="add-priority-to-todo-item" size="1" id="priority-selectbox"> 
+                    <option value=""></option>
+                    <option value="高">高</option>
+                    <option value="中">中</option>
+                    <option value="低">低</option>
+                </select>
             </div>
+        </div>
+        <span id="error-text"></span> 
+        <div class ="filter-sort-bar">
+            <p class ="sort"><ソート></p>
+            <p class ="filter"><フィルター></p>
+        </div>  
+        <div class ="button-items">
+            <div class ="creation-date-items">
+                <p class ="creation-date">作成日</p>
+                <button id="sort-desc-createdat-at-btn">↑</button>
+                <button id="sort-asc-createdat-at-btn">↓</button>
+            </div>
+            <div class ="deadline-items">
+                <p class ="deadline">日付</p>
+                <button id="sort-desc-deadline-btn">↑</button>
+                <button id="sort-asc-deadline-btn">↓</button>
+            </div>
+            <div class ="priority-items">
+                <p class ="priority">優先度</p>
+                <button id="sort-desc-priority-btn">↑</button>
+                <button id="sort-asc-priority-btn">↓</button>
+            </div>
+            <div class ="filter-priority-items">
+                <p class ="filter-priority">優先度</p>
+                <button id="filter-priority-high-btn">高</button>
+                <button id="filter-middle-priority-btn">中</button>
+                <button id="filter-low-priority-btn">低</button>
+                <button id="filter-no-priority-btn">無し</button>
+            </div>
+        </div>
     </div>
 </body>
 </html>
-<script  src="./script.js"></script>
+<script  src="./script.js"></script>  
+<!-- …文章の一部として扱う要素。要素の前後で改行されない。 -->
