@@ -8,10 +8,10 @@
     <title>To do List 新規</title>
 </head>
 <body>
-    <div class ="tate">
+    <div class ="main-outline">
         <div class="column">
-            <label for="message">todoリスト</label>
-            <div class ="display-Checkmark-Text">
+            <label for="message" class="message">TODO LIST</label>
+            <div class ="display-checkmark-text">
                 <button id="btn">＋</button>
                 <textarea id="textarea"placeholder="todoを入力してください"></textarea>
                 <input type="date" id="date"></input>
@@ -25,31 +25,31 @@
         </div>
         <span id="error-text"></span> 
         <div class ="filter-sort-bar">
-            <p class ="sort"><ソート></p>
-            <p class ="filter"><フィルター></p>
+            <p class ="sort">並び替え</p>
+            <p class ="filter">絞り込む</p>
         </div>  
         <div class ="button-items">
             <div class ="creation-date-items">
                 <p class ="creation-date">作成日</p>
-                <button id="sort-desc-createdat-at-btn">↑</button>
-                <button id="sort-asc-createdat-at-btn">↓</button>
+                <button id="sort-desc-createdat-at-btn">▲</button>
+                <button id="sort-asc-createdat-at-btn">▼</button>
             </div>
             <div class ="deadline-items">
                 <p class ="deadline">日付</p>
-                <button id="sort-desc-deadline-btn">↑</button>
-                <button id="sort-asc-deadline-btn">↓</button>
+                <button id="sort-desc-deadline-btn">▲</button>
+                <button id="sort-asc-deadline-btn">▼</button>
             </div>
             <div class ="priority-items">
                 <p class ="priority">優先度</p>
-                <button id="sort-desc-priority-btn">↑</button>
-                <button id="sort-asc-priority-btn">↓</button>
+                <button id="sort-desc-priority-btn">▲</button>
+                <button id="sort-asc-priority-btn">▼</button>
             </div>
             <div class ="filter-priority-items">
                 <p class ="filter-priority">優先度</p>
                 <button id="filter-priority-high-btn">高</button>
                 <button id="filter-middle-priority-btn">中</button>
                 <button id="filter-low-priority-btn">低</button>
-                <button id="filter-no-priority-btn">無し</button>
+                <button id="filter-no-priority-btn">無</button>
             </div>
         </div>
     </div>

@@ -55,9 +55,9 @@ function filter(type) {
     filterLowPriority:"低",
     filterNoPriority:""
   }
-  const priority = priorityList[type]
+  const selectedPriority  = priorityList[type]
 
-  const filteredTodos = todoList.filter(todo => todo.priority === priority);
+  const filteredTodos = todoList.filter(todo => todo.priority === selectedPriority);
 
   const todoElements = document.querySelectorAll(".todo-item");
   todoElements.forEach(element => element.remove());
@@ -196,13 +196,13 @@ function addPriorityToTodoItem(todo,div){
 
 // ＜文言を記載しボタンでクリック後、タスク追加＞
 function addTodo() {
-  if (textarea.value === "") {
-    // http://javascriptmania.blog111.fc2.com/blog-entry-59.html
-    errorText.innerHTML="文字を入力をしてください";
-    return;
-  }else{
-    errorText.innerHTML = "";
-  };
+  // if (textarea.value === "") {
+  //   // http://javascriptmania.blog111.fc2.com/blog-entry-59.html
+  //   errorText.innerHTML="文字を入力をしてください";
+  //   return;
+  // }else{
+  //   errorText.innerHTML = "";
+  // };
   // ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 // ローカルストレージから今あるtodoを引っ張ってくる
 // todoList.id = 0
@@ -235,6 +235,7 @@ function addCheckBox(div,todo) {
   const check = document.createElement("input"); 
   check.setAttribute("type", "checkbox");
   check.classList.add("check-box");
+  
   div.appendChild(check); 
 
   check.checked = todo.isCompleted;
@@ -270,34 +271,66 @@ function addDeleteButton(div) {
   
   deleteButton.addEventListener("click", () => {
     div.remove();
-    const deleteId = div.id;
   
-    todoList = todoList.filter(todo => todo.id !== parseInt(deleteId));
+    todoList = todoList.filter(todo => todo.id !== parseInt(div.id));
 
     saveTodoList();
   });
 }
 
-function addEditButton(div){
-
+function addEditAndCompleteButton(div,todo){
   const editButton = document.createElement("button");
-  editButton.textContent = "編集";
+  editButton.textContent = "編集"; 
   editButton.classList.add("edit-button"); 
-  div.appendChild(editButton);
+  const test =document.getElementsByClassName("sort-desc-deadline-btn");
 
-  function test(){
-    const textbox = document.createElement('input');
-    textbox.type = 'text';
-    textbox.id = 'myTextbox';
-    const addTextbox =document.body.appendChild(textbox);
-    textarea.value = "";
 
-  }
+  const completedButton = document.createElement("button");
+  completedButton.textContent = "完了";
+  completedButton.classList.add("completed-button"); 
+  completedButton.style.display = 'none';
+
+  const textbox = document.createElement('textarea');
+  textbox.setAttribute("id", "edit-textarea");
+     // setAttribute() は Element インターフェイスのメソッドで、指定された要素の属性の値を設定
+  // textbox.id = 'textbox';
+  // 使う予定がなければ削除
+    // https://uxmilk.jp/46961
+    // 文字列か数字か確認
+  const editTargetTodo = todoList.find(todo => todo.id === parseInt(div.id));
+  // 動詞が入っているからと言って必ず関数の名前にはならない
+  textbox.value = editTargetTodo.text;
+
+  // ifで編集の文言のボタン時と、完了の時の文言のボタンで分岐させる
+  // コンプリートボタンを新たに作って表示させない
   
+  // 編集ボタンと完了ボタンで定義を変える
+  //     // 実態が何かを命名する＋している動作を名前にしているわけではない
+  //     // 動作は関数がほとんど
+
   editButton.addEventListener('click', () => {
-    editButton.textContent = "完了";
-    test()
+    editButton.style.display = 'none';
+    completedButton.style.display = 'block';
+    
+    const textElement =document.getElementById(`text-${todo.id}`);
+    const textWrapper =document.getElementById(`text-wrapper-${todo.id}`);
+
+    textElement.remove()
+    textWrapper.appendChild(textbox);
   });
+
+  completedButton.addEventListener('click', () => {
+    
+    editTargetTodo.text = textbox.value;
+    editButton.style.display= 'block';
+    completedButton.style.display= 'none';
+
+    saveTodoList ()
+    loadTodos()
+  });
+
+  div.appendChild(editButton);
+  div.appendChild(completedButton);
 }
 
 function deadline(todo){
@@ -320,21 +353,25 @@ function todoCreateElement(todo) {
 
   const p = document.createElement('p');
   const viewText = document.createTextNode(todo.text);
-  p.className = "text";
 
   todoWrapperDiv.classList.add("todo-item");
   todoWrapperDiv.id = todo.id;
+  p.id = `text-${todo.id}`;
+  //テンプレートリテラル 数や式を組み込むための記号。
 
   addCheckBox(todoWrapperDiv, todo); 
 
   const textWrapperDiv = document.createElement("div"); 
+  textWrapperDiv.setAttribute('id',`text-wrapper-${todo.id}`);
   textWrapperDiv.classList.add("text-wrapper");
+
+
   p.appendChild(viewText);
   textWrapperDiv.appendChild(p);
   todoWrapperDiv.appendChild(textWrapperDiv)
 
   changeBorderColor(todoWrapperDiv,todo)
-  addEditButton(todoWrapperDiv);
+  addEditAndCompleteButton(todoWrapperDiv,todo);
   // (todo,todoWrapperDivのtodoWrapperDivはここで作られたtodoWrapperDivの中で関数を発動させるため）
   todoWrapperDiv.appendChild(addPriorityToTodoItem(todo,todoWrapperDiv));
   // 指定された親ノードの子ノードリストの末尾にノードを追加
@@ -359,10 +396,13 @@ function loadTodos() {
 // 関数作成
 // 完了ボタンへの表示変更
 // ローカルストレージからidとテキストのデータを取得
-// divにテキストボックスを追加
-// todo内に入ってた文字を消す
+// pタグのid取得
+// pタグ/を一度消す
+// pタグを消したところに、テキストボックスを追加
 // フォームの中にtodo内に入っていたテキストを反映させる
 // そのデータをテキストボックスに反映させる
-// 完了ボタンをクリックしたときに、ローカルストレージに反映させる
-// todoの文言をhtml状でも表示させる
+
+
+// 完了ボタンをクリックしたときに、ローカルストレージに文字を保存
 // 再ロードし編集ボタンを再度表示
+// todoの文言をhtml状でも表示させる
