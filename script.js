@@ -21,6 +21,7 @@ const filterPriorityHighBtn = document.getElementById("filter-priority-high-btn"
 const filterMiddlePriorityBtn = document.getElementById("filter-middle-priority-btn")
 const filterLowPriorityBtn = document.getElementById("filter-low-priority-btn")
 const filterNoPriorityBtn = document.getElementById("filter-no-priority-btn")
+const filterResetPriorityBtn = document.getElementById("filter-reset-priority-btn")
 
 
 const dateErrorText = document.getElementById("date-error-text");
@@ -45,6 +46,7 @@ filterPriorityHighBtn.addEventListener("click",() => filter("filterPriorityHigh"
 filterMiddlePriorityBtn.addEventListener("click",() => filter("filterMiddlePriority"));
 filterLowPriorityBtn.addEventListener("click",() => filter("filterLowPriority"));
 filterNoPriorityBtn.addEventListener("click",() => filter("filterNoPriority"));
+filterResetPriorityBtn.addEventListener("click",() => loadTodos());
 
 function filter(type) {
 //   // 条件分岐　 js　リファクタリング
@@ -53,10 +55,9 @@ function filter(type) {
     filterPriorityHigh:"高",
     filterMiddlePriority:"中",
     filterLowPriority:"低",
-    filterNoPriority:""
+    filterNoPriority:"",
   }
-  const selectedPriority  = priorityList[type]
-
+  const selectedPriority  = priorityList[type];
   const filteredTodos = todoList.filter(todo => todo.priority === selectedPriority);
 
   const todoElements = document.querySelectorAll(".todo-item");
@@ -64,6 +65,7 @@ function filter(type) {
 
   filteredTodos.forEach(todo => todoCreateElement(todo))
 }
+
 
 function sort(type){
   
@@ -77,7 +79,7 @@ function sort(type){
     // https://qiita.com/ymk83/items/3d53e0965a278b5cfd4d⇒sortの仕様
 
   // =>関数式の記述を簡略化したのがアロー関数…function(a,b)と同じ
-  // todoListに配列をぶちこんでるからできる
+  // todoListに配列を入れている
   // aとbで上から計算してい
   if (type === "descCreatedAt") {
     // todoList.sortが重複しているので変数を使う
@@ -104,7 +106,6 @@ function sort(type){
   saveTodoList()  
   loadTodos()
 }
-
 
 /* <ID作成> */
 function getId(){
@@ -251,10 +252,7 @@ function addCheckBox(div,todo) {
 // ＜チェックボックスがオンの時、文字を薄くする/オフの時表示を通常時にする＞
 function toggleTodoStyle(div,todo) {
   // コメントアウトして1個ずつ消していくと、閉じ【】がわかりやすくなる
-  // const checkboxes = document.querySelectorAll(".check-box");
   // divから受け取っている。
-  // checkboxes.forEach(checkbox => {
-    // checkbox.addEventListener("change", () => {
   if(todo.isCompleted) {
     div.classList.add("check-box-enabled");
   } else {
@@ -282,8 +280,6 @@ function addEditAndCompleteButton(div,todo){
   const editButton = document.createElement("button");
   editButton.textContent = "編集"; 
   editButton.classList.add("edit-button"); 
-  const test =document.getElementsByClassName("sort-desc-deadline-btn");
-
 
   const completedButton = document.createElement("button");
   completedButton.textContent = "完了";
@@ -293,8 +289,6 @@ function addEditAndCompleteButton(div,todo){
   const textbox = document.createElement('textarea');
   textbox.setAttribute("id", "edit-textarea");
      // setAttribute() は Element インターフェイスのメソッドで、指定された要素の属性の値を設定
-  // textbox.id = 'textbox';
-  // 使う予定がなければ削除
     // https://uxmilk.jp/46961
     // 文字列か数字か確認
   const editTargetTodo = todoList.find(todo => todo.id === parseInt(div.id));
@@ -336,6 +330,14 @@ function addEditAndCompleteButton(div,todo){
 function deadline(todo){
   const div = document.createElement("div");
   const deadline = document.createTextNode(todo.deadline);
+
+  const deadlineText = todo.deadline ? todo.deadline : "null";
+  const deadlineNode = document.createTextNode(deadlineText);
+    // クラスを追加してスタイル用に使えるようにする
+    div.classList.add("deadline-item");
+
+    // テキストノードをdivに追加
+    div.appendChild(deadlineNode);
   // テキスト生成
   div.classList.add("deadline-item");
   div.appendChild(deadline);
@@ -363,8 +365,6 @@ function todoCreateElement(todo) {
 
   const textWrapperDiv = document.createElement("div"); 
   textWrapperDiv.setAttribute('id',`text-wrapper-${todo.id}`);
-  textWrapperDiv.classList.add("text-wrapper");
-
 
   p.appendChild(viewText);
   textWrapperDiv.appendChild(p);
@@ -391,18 +391,3 @@ function loadTodos() {
   todoItodoItems.forEach(element => element.remove());
   todoList.forEach(todoCreateElement);
 }
-
-// 編集ボタンを作成
-// 関数作成
-// 完了ボタンへの表示変更
-// ローカルストレージからidとテキストのデータを取得
-// pタグのid取得
-// pタグ/を一度消す
-// pタグを消したところに、テキストボックスを追加
-// フォームの中にtodo内に入っていたテキストを反映させる
-// そのデータをテキストボックスに反映させる
-
-
-// 完了ボタンをクリックしたときに、ローカルストレージに文字を保存
-// 再ロードし編集ボタンを再度表示
-// todoの文言をhtml状でも表示させる

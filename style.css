@@ -5,10 +5,14 @@ body{
   font-size: 1.2rem;
   font-weight: bold;
   align-items: center;
+  font-family: forma-djr-micro, sans-serif;
+  font-style: normal;
+  font-weight: 400;
 }
 
 .message{
   font-size: 30px;
+  font-family: 'IM Fell DW Pica SC', serif;
 }
 
 .main-outline{
@@ -96,7 +100,6 @@ body{
   position: absolute; 
   right:19.5em;
   top: 3.2em;
-  /* margin-bottom:-1em; */
   color: red;
   max-width: 100%;
   word-wrap: break-word;
@@ -107,6 +110,7 @@ body{
   align-items: center;
   justify-content: center;
   margin-bottom: 0.5em;
+  align-items: baseline;
 }
 
 .filter-sort-bar{
@@ -115,26 +119,27 @@ body{
 }
 
 .sort{
-  margin-left: 9em;
+  margin-left: 12em;
+  margin-left: 9.5em;
 }
 
 .filter{
-  margin-left: 9.5em;
+  margin-left:11.5em;
 }
 
 .creation-date-items{
   display: flex;
-  flex-direction: column
-}
-.creation-date{
-  margin: 0.3em 1.5em 0.3em 0;
+  flex-direction: column;
+  margin-right:1em;
 }
 
 #sort-desc-createdat-at-btn{
   border: 1px;
-  font-size: 15px;
+  font-size: 17px;
   color: #4FC3F7;
   background-color: white;
+  position: relative;
+  bottom: 15px; 
 }
 #sort-desc-createdat-at-btn:hover {
   color: #1976D2;
@@ -142,9 +147,11 @@ body{
 
 #sort-asc-createdat-at-btn{
   border: 1px;
-  font-size: 15px;
+  font-size: 17px;
   color: #4FC3F7;
   background-color: white;
+  position: relative;
+  bottom: 15px; 
 }
 
 #sort-asc-createdat-at-btn:hover{
@@ -153,19 +160,21 @@ body{
 
 .deadline-items{
   display: flex;
-  flex-direction: column
+  flex-direction: column;
+  margin-right:1em;
 }
 
 .deadline{
   text-align:center;
-  margin: 0.3em 1.4em 0.3em 0;
 }
 
 #sort-desc-deadline-btn{
   border: 1px;
   color: #4FC3F7;
   background-color: white;
-  font-size: 15px;
+  font-size: 17px;
+  position: relative;
+  bottom: 15px; 
 }
 #sort-desc-deadline-btn:hover{
   color: #1976D2;
@@ -175,7 +184,9 @@ body{
   border: 1px;
   color: #4FC3F7;
   background-color: white;
-  font-size: 15px;
+  font-size: 17px;
+  position: relative;
+  bottom: 15px; 
 }
 #sort-asc-deadline-btn:hover{
   color: #1976D2;
@@ -183,18 +194,17 @@ body{
 
 .priority-items{
   display: flex;
-  flex-direction: column
-}
-
-.priority{
-  margin: 0.3em 1.5em 0.3em 0;
+  flex-direction: column;
+  margin-right:1em;
 }
 
 #sort-desc-priority-btn{
   border: 1px;
   color: #4FC3F7;
   background-color: white;
-  font-size: 15px;
+  font-size: 17px;
+  position: relative;
+  bottom: 15px; 
 }
 
 #sort-desc-priority-btn:hover{
@@ -204,7 +214,9 @@ body{
   border: 1px;
   color: #4FC3F7;
   background-color: white;
-  font-size: 15px;
+  font-size: 17px;
+  position: relative;
+  bottom: 15px; 
 }
 #sort-asc-priority-btn:hover{
   color: #1976D2;
@@ -215,6 +227,8 @@ body{
 }
 
 .filter-priority{
+  position: relative;
+  bottom: 2px; 
   text-align:center;
   line-height: 0.05;
 }
@@ -280,8 +294,25 @@ body{
   color:white;
 }
 
+#filter-reset-priority-btn{
+  margin: 0.3em 0.5em 0.3em 0;
+  font-size: 15px;
+  height: 1.6em;
+  border-radius:20%;
+  font-size: 15px;
+  color:white;
+  background-color: #5eaaf0;
+  border: 1px solid;
+}
+#filter-reset-priority-btn:hover{
+  background-color: #1976D2;
+  color:white;
+}
+
+
+
 /* JS追加クラス */
-.text-wrapper{
+[id^="text-wrapper"] {
   width: 29em;
   font-size: 15px;
   font-family:'メイリオ', 'Meiryo', sans-serif;
@@ -328,13 +359,13 @@ input[type=checkbox] {
 }
 
 .high-priority{
-  border: solid 3px #6be8ba
+  border: solid 3px #345269;
 }
 .middle-priority{
-  border: solid 3px #4dd5d4;
+  border: solid 3px #5585A9;
 }
 .low-priority{
-  border: solid 3px #67bfd8;
+  border: solid 3px #C7D7E4;
 }
 
 .deadline-item {
