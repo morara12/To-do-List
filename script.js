@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", loadTodos);
 
+let todoList = JSON.parse(localStorage.getItem("todos")) || [];
 
 const btn = document.getElementById("btn");
+btn.addEventListener("click", addTodo);
+
 const date = document.getElementById("date");
 
 const textarea = document.getElementById("textarea");
@@ -16,22 +19,14 @@ const sortAscDeadlineBtn= document.getElementById("sort-asc-deadline-btn");
 const sortDescPriorityBtn = document.getElementById("sort-desc-priority-btn");
 const sortAscPriorityBtn = document.getElementById("sort-asc-priority-btn");
 
-
 const filterPriorityHighBtn = document.getElementById("filter-priority-high-btn")
 const filterMiddlePriorityBtn = document.getElementById("filter-middle-priority-btn")
 const filterLowPriorityBtn = document.getElementById("filter-low-priority-btn")
 const filterNoPriorityBtn = document.getElementById("filter-no-priority-btn")
 const filterResetPriorityBtn = document.getElementById("filter-reset-priority-btn")
 
-
-const dateErrorText = document.getElementById("date-error-text");
-
 const priority = document.getElementById('priority-selectbox');
 const todoItem = document.getElementsByClassName("todo-item")
-
-let todoList = JSON.parse(localStorage.getItem("todos")) || [];
-
-btn.addEventListener("click", addTodo);
 
 sortDescCreatedAtBtn.addEventListener("click", () => sort("descCreatedAt"));
 sortAscCreatedAtBtn.addEventListener("click", () => sort("ascCreatedAt"));
@@ -49,8 +44,6 @@ filterNoPriorityBtn.addEventListener("click",() => filter("filterNoPriority"));
 filterResetPriorityBtn.addEventListener("click",() => loadTodos());
 
 function filter(type) {
-//   // 条件分岐　 js　リファクタリング
-//   // https://teratail.com/questions/336970
   const priorityList = {
     filterPriorityHigh:"高",
     filterMiddlePriority:"中",
@@ -68,36 +61,20 @@ function filter(type) {
 
 
 function sort(type){
-  
-  // selector⇒CSSセレクタを指定します。
-  // このメソッドは、条件に一致するすべての要素を含む静的なNodeListを返します。
-  // NodeListは配列に似たオブジェクトで、ループ処理や要素へのアクセスが可能
-  // HTMLCollectionとNodeListの違い
-  // http://tomiwa-tech.co.jp/blog/html-collection-vs-nodelist/
-  // 関数外につくるとだめ
-        // https://techblg.app/articles/js-sort-array/
-    // https://qiita.com/ymk83/items/3d53e0965a278b5cfd4d⇒sortの仕様
-
-  // =>関数式の記述を簡略化したのがアロー関数…function(a,b)と同じ
-  // todoListに配列を入れている
-  // aとbで上から計算してい
   if (type === "descCreatedAt") {
-    // todoList.sortが重複しているので変数を使う
     todoList.sort((a,b) => b.createdAt - a.createdAt);
   } else if (type === "ascCreatedAt") {
     todoList.sort((a,b) => a.createdAt - b.createdAt);
   } else if (type === "descPriority") {
-    // https://nekoniki.com/20200924_javascript_string_sort_custom
     let data = ["高", "中", "低", ""];
     todoList.sort((a, b) => data.indexOf(b.priority) - data.indexOf(a.priority));
-    // indexOf String 値（変数の種類の一つ。「その箱には文字列（文字の集まり）を入れていいよ」な決まりのこと）のメソッドで
-    // この文字列を検索し、指定した部分文字列が最初に出現するインデックスを返します
+    // indexOf String 値（変数の種類の一つ。「その箱には文字列（文字の集まり）を入れていいよ」という決まりのこと）のメソッド
+    // この文字列を検索し、指定した部分の文字列が最初に出現するインデックスを返す
   } else if (type === "ascPriority") {
     let data = ["高", "中", "低", ""];
     todoList.sort((a, b) => data.indexOf(a.priority) - data.indexOf(b.priority));
   } else if (type === "descDeadline") {
     todoList.sort((a, b) => Date.parse(b.deadline) - Date.parse(a.deadline)); 
-    // https://qiita.com/maiamea/items/4ab60364c4c268eaa2a5
     //Date.parse⇒ YYYY-MM-DDを数字化
   } else if (type === "ascDeadline") {
     todoList.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
@@ -109,56 +86,35 @@ function sort(type){
 
 /* <ID作成> */
 function getId(){
-  // ifで分岐させる必要がある
-  // 1からIDの作成
   if(todoItem.length === 0){
     return 1
   } else {
     const todoIdArray =  todoList.map((todo) => todo.id); 
-    // map =todolistの配列=idのプロパティ参照
-    // https://zenn.dev/ndjndj/articles/5a2f93374b3fc3⇒配列の最大値（最小値）を取得するには
+    // map = todoList内のidだけを取り出した配列を作る
     const maxId =  Math.max(...todoIdArray);
-    // Math.max()
-    // https://zenn.dev/progate_users/articles/c86f2d1fb855e0
     // Math.max() 関数は、入力引数として与えられた 0 個以上の数値のうち最大の数を返す
-    // https://zenn.dev/kosuke_shopify/articles/95f784531c3c98
-    // reduceかんすうについて
-    // https://zenn.dev/ndjndj/articles/5a2f93374b3fc3
-    // reduce()は対象となる配列に対して任意の関数を実行することができます。
     return maxId+1
     // todoItem.lengthが一つ目は無条件で１
     // ２つめはmapで大きいものを返す
   }
-    // todoListから直接idを参照出来ないからエラー
-    // tolistは配列
-    // todoItem.length
 };
 
 function changeBorderColor(div, todo) {
-  // （古)addBorder⇒足しているのではなく、枠の色を変えるクラスのため現在の名前に変更
-  // https://bonoponz.hatenablog.com/entry/2020/05/12/%E3%80%90Web%E3%80%91%E3%83%97%E3%83%AB%E3%83%80%E3%82%A6%E3%83%B3%E3%81%A7%E8%A1%A8%E7%A4%BA%E5%86%85%E5%AE%B9%E3%82%92%E5%88%87%E3%82%8A%E6%9B%BF%E3%81%88%E3%82%8B
-  // https://nagashima.kyusan-u.ac.jp/note/color-change/
-  // https://mebee.info/2021/01/07/post-19281/
-  // https://kasumiblog.org/javascript-select-class
   div.classList.remove("high-priority", "middle-priority", "low-priority");
-  // クリックしたとき、一旦リセットさせる
+  // クリックしたとき、一旦リセット
   if (todo.priority === "高") {
     div.classList.add("high-priority");
   } else if (todo.priority === "中") {
     div.classList.add("middle-priority");
   } else if (todo.priority === "低") {
     div.classList.add("low-priority");
-  // } else if (todo.priority === "") {
-    // div.classList.add("todo-item");
-    // これが無くても成立する
-};
+  }
 }
 
-
 function addPriorityToTodoItem(todo,div){
-  // https://oinusama.hatenadiary.org/entry/20091106/p1
   const select = document.createElement("select");
-  // document.createElement() メソッドは tagName で指定された HTML 要素を生成し、または tagName が認識できない場合は HTMLUnknownElement を生成します。
+  // document.createElement() メソッドは 
+  // tagName で指定された HTML 要素を生成し、または tagName が認識できない場合は HTMLUnknownElement を生成
   const option_non_priority = document.createElement("option");
   const option_high = document.createElement("option");
   const option_middle = document.createElement("option");
@@ -166,12 +122,11 @@ function addPriorityToTodoItem(todo,div){
   
   option_non_priority.setAttribute("value","");
   option_non_priority.appendChild( document.createTextNode("") );
-  // setAttribute('属性の名前', '新しい属性')という形式で使用します。
+  // setAttribute(属性名, 値) で属性を設定する
 
   option_high.setAttribute("value","高");
-  // Node インターフェイスのメソッドで、指定された親ノードの子ノードリストの末尾にノードを追加します。
+  // Node インターフェイスのメソッドで、指定された親ノードの子ノードリストの末尾にノードを追加
   option_high.appendChild( document.createTextNode("高") );
-  // 表に表示される
 
   option_middle.setAttribute("value","中");
   option_middle.appendChild( document.createTextNode("中") );
@@ -185,7 +140,7 @@ function addPriorityToTodoItem(todo,div){
   select.appendChild(option_low);
 
   select.value = todo.priority;
-  // https://codinghaku.com/javascript-select-action/?utm_source=chatgpt.com
+
   select.addEventListener("change", () => {
     todo.priority= select.value; 
     changeBorderColor(div, todo)
@@ -197,38 +152,30 @@ function addPriorityToTodoItem(todo,div){
 
 // ＜文言を記載しボタンでクリック後、タスク追加＞
 function addTodo() {
-  // if (textarea.value === "") {
-  //   // http://javascriptmania.blog111.fc2.com/blog-entry-59.html
-  //   errorText.innerHTML="文字を入力をしてください";
-  //   return;
-  // }else{
-  //   errorText.innerHTML = "";
-  // };
-  // ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
-// ローカルストレージから今あるtodoを引っ張ってくる
-// todoList.id = 0
+  if (textarea.value === "") {
+    errorText.innerHTML="文字を入力してください";
+    return;
+  }else{
+    errorText.innerHTML = "";
+  };
 
-// 新規作成の場合、⇒ローカルストレージが0の場合、０をふる
-// 0以上の場合、1を足していく。
-
-// console.log(todoList.slice());
-// 文字列や配列などからデータの一部分だけ取り出せるメソッド
-// slice⇒空の状態の複製させている
-// ⇒更新後のものが表示されることがある
   const newTodo = {
     id:getId(),
     // 関数でもこの中に入れられる
     isCompleted: false,
     text: textarea.value,
     priority: priority.value,
-    // Numberで文字列として認識しているので数字化
     deadline: date.value,
     createdAt:Date.now(),
   };
+
   todoList.push(newTodo);
   saveTodoList();
   todoCreateElement(newTodo);
+  
   textarea.value = "";
+  date.value = "";
+  priority.value = "";
 };
 
 // ＜タスクを追加した際、チェックボックスも追加＞
@@ -240,7 +187,7 @@ function addCheckBox(div,todo) {
   div.appendChild(check); 
 
   check.checked = todo.isCompleted;
-  // チェックボックスの状態変更時に文字を薄くする処理を追加
+
   check.addEventListener("change", () => {
     todo.isCompleted = check.checked;
     toggleTodoStyle(div,todo);
@@ -251,15 +198,12 @@ function addCheckBox(div,todo) {
 
 // ＜チェックボックスがオンの時、文字を薄くする/オフの時表示を通常時にする＞
 function toggleTodoStyle(div,todo) {
-  // コメントアウトして1個ずつ消していくと、閉じ【】がわかりやすくなる
-  // divから受け取っている。
   if(todo.isCompleted) {
     div.classList.add("check-box-enabled");
   } else {
     div.classList.remove("check-box-enabled");
   }
 }
-
 
 function addDeleteButton(div) {  
   const deleteButton = document.createElement("button");
@@ -269,9 +213,9 @@ function addDeleteButton(div) {
   
   deleteButton.addEventListener("click", () => {
     div.remove();
-  
-    todoList = todoList.filter(todo => todo.id !== parseInt(div.id));
 
+    todoList = todoList.filter(todo => todo.id !== parseInt(div.id));
+    
     saveTodoList();
   });
 }
@@ -288,19 +232,11 @@ function addEditAndCompleteButton(div,todo){
 
   const textbox = document.createElement('textarea');
   textbox.setAttribute("id", "edit-textarea");
-     // setAttribute() は Element インターフェイスのメソッドで、指定された要素の属性の値を設定
-    // https://uxmilk.jp/46961
-    // 文字列か数字か確認
-  const editTargetTodo = todoList.find(todo => todo.id === parseInt(div.id));
-  // 動詞が入っているからと言って必ず関数の名前にはならない
-  textbox.value = editTargetTodo.text;
+  // setAttribute() は Element インターフェイスのメソッドで、指定された要素の属性の値を設定
 
-  // ifで編集の文言のボタン時と、完了の時の文言のボタンで分岐させる
-  // コンプリートボタンを新たに作って表示させない
-  
-  // 編集ボタンと完了ボタンで定義を変える
-  //     // 実態が何かを命名する＋している動作を名前にしているわけではない
-  //     // 動作は関数がほとんど
+  const editTargetTodo = todoList.find(todo => todo.id === parseInt(div.id));
+
+  textbox.value = editTargetTodo.text;
 
   editButton.addEventListener('click', () => {
     editButton.style.display = 'none';
@@ -314,7 +250,6 @@ function addEditAndCompleteButton(div,todo){
   });
 
   completedButton.addEventListener('click', () => {
-    
     editTargetTodo.text = textbox.value;
     editButton.style.display= 'block';
     completedButton.style.display= 'none';
@@ -329,28 +264,22 @@ function addEditAndCompleteButton(div,todo){
 
 function deadline(todo){
   const div = document.createElement("div");
-  const deadline = document.createTextNode(todo.deadline);
+  const deadlineText = todo.deadline ? todo.deadline : "";
 
-  const deadlineText = todo.deadline ? todo.deadline : "null";
   const deadlineNode = document.createTextNode(deadlineText);
-    // クラスを追加してスタイル用に使えるようにする
-    div.classList.add("deadline-item");
 
-    // テキストノードをdivに追加
-    div.appendChild(deadlineNode);
-  // テキスト生成
   div.classList.add("deadline-item");
-  div.appendChild(deadline);
-  // divを生成しただけなので値を返す
-  // https://zenn.dev/ankouh/books/javascript-dom/viewer/b412c6
+  // クラスを追加してスタイル用に使えるようにする
+
+  div.appendChild(deadlineNode);
+  // テキストノードをdivに追加
+
   return div
 }
 
 
 // ＜要素の作成＞
 function todoCreateElement(todo) {
-  // https://itsakura.com/js-createelement
-  // 文字にクラスをつける方法
   const todoWrapperDiv = document.createElement("div");
 
   const p = document.createElement('p');
@@ -373,21 +302,25 @@ function todoCreateElement(todo) {
   changeBorderColor(todoWrapperDiv,todo)
   addEditAndCompleteButton(todoWrapperDiv,todo);
   // (todo,todoWrapperDivのtodoWrapperDivはここで作られたtodoWrapperDivの中で関数を発動させるため）
+  
   todoWrapperDiv.appendChild(addPriorityToTodoItem(todo,todoWrapperDiv));
   // 指定された親ノードの子ノードリストの末尾にノードを追加
+
   todoWrapperDiv.appendChild(deadline(todo));
-  addDeleteButton(todoWrapperDiv); //  削除ボタン
+  addDeleteButton(todoWrapperDiv);
   document.body.appendChild(todoWrapperDiv);
 }
 
 
+// <ローカルストレージに保存＞
 function saveTodoList (){
   localStorage.setItem("todos", JSON.stringify(todoList));
 }; 
 
-//＜ リロード時の呼び出し＞
+
+//＜ リロード時呼び出し＞
 function loadTodos() {
-  const todoItodoItems = document.querySelectorAll(".todo-item")
-  todoItodoItems.forEach(element => element.remove());
+  const todoItems = document.querySelectorAll(".todo-item")
+  todoItems.forEach(element => element.remove());
   todoList.forEach(todoCreateElement);
 }

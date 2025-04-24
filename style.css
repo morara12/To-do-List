@@ -19,7 +19,7 @@ body{
   background-color: white;
   background-position: center;
   float: right; 
-  border-radius: 30px;  /* 位置指定 */
+  border-radius: 30px;
   margin-top:0.5em;
   margin-bottom: 1em;
 }
@@ -43,7 +43,6 @@ body{
   width: 32em;
   font-size: 90%;
   height: 2em;
-  display: flex;
 }
 
 #btn{
@@ -56,8 +55,8 @@ body{
   font-size: 15px;
   color:white;
 }
+
 .edit-button{
-  border: 1px solid;
   margin: 1em;
   width:3em; 
   height: 2.3em; 
@@ -86,20 +85,17 @@ body{
   width: 500px;
   font-size: 90%;
   height: 50px;
-  display: flex;
 }
 
 ::placeholder {
-  /* https://x.gd/9Uj74 */
-  /* ⇒URLURLinputタグにてplaceholderの文字サイズを小さくした時の、Chromeの挙動がおかしい */
   position:relative;
   top:15px
 }
 
 #error-text {
   position: absolute; 
-  right:19.5em;
-  top: 3.2em;
+  right: 14em;
+  top: 4.7em;
   color: red;
   max-width: 100%;
   word-wrap: break-word;
@@ -119,7 +115,6 @@ body{
 }
 
 .sort{
-  margin-left: 12em;
   margin-left: 9.5em;
 }
 
@@ -141,6 +136,7 @@ body{
   position: relative;
   bottom: 15px; 
 }
+
 #sort-desc-createdat-at-btn:hover {
   color: #1976D2;
 }
@@ -176,6 +172,7 @@ body{
   position: relative;
   bottom: 15px; 
 }
+
 #sort-desc-deadline-btn:hover{
   color: #1976D2;
 }
@@ -188,6 +185,7 @@ body{
   position: relative;
   bottom: 15px; 
 }
+
 #sort-asc-deadline-btn:hover{
   color: #1976D2;
 }
@@ -210,6 +208,7 @@ body{
 #sort-desc-priority-btn:hover{
   color: #1976D2;
 }
+
 #sort-asc-priority-btn{
   border: 1px;
   color: #4FC3F7;
@@ -218,6 +217,7 @@ body{
   position: relative;
   bottom: 15px; 
 }
+
 #sort-asc-priority-btn:hover{
   color: #1976D2;
 }
@@ -243,11 +243,11 @@ body{
   background-color: #5eaaf0;
   border: 1px solid;
 }
+
 #filter-priority-high-btn:hover{
   background-color: #1976D2;
   color:white;
 }
-
 
 #filter-middle-priority-btn{
   margin: 0.3em 0.5em 0.3em 0;
@@ -259,6 +259,7 @@ body{
   background-color: #5eaaf0;
   border: 1px solid;
 }
+
 #filter-middle-priority-btn:hover{
   background-color: #1976D2;
   color:white;
@@ -274,6 +275,7 @@ body{
   background-color: #5eaaf0;
   border: 1px solid;
 }
+
 #filter-low-priority-btn:hover{
   background-color: #1976D2;
   color:white;
@@ -289,6 +291,7 @@ body{
   background-color: #5eaaf0;
   border: 1px solid;
 }
+
 #filter-no-priority-btn:hover{
   background-color: #1976D2;
   color:white;
@@ -304,14 +307,12 @@ body{
   background-color: #5eaaf0;
   border: 1px solid;
 }
+
 #filter-reset-priority-btn:hover{
   background-color: #1976D2;
   color:white;
 }
 
-
-
-/* JS追加クラス */
 [id^="text-wrapper"] {
   width: 29em;
   font-size: 15px;
@@ -321,7 +322,7 @@ body{
 .delete-button{
   border: 1px solid;
   background-color: #1976D2;
-   color:white;
+  color:white;
   border-radius:50%;
   margin-right: 15px;
   text-align: center;
@@ -361,9 +362,11 @@ input[type=checkbox] {
 .high-priority{
   border: solid 3px #345269;
 }
+
 .middle-priority{
   border: solid 3px #5585A9;
 }
+
 .low-priority{
   border: solid 3px #C7D7E4;
 }
